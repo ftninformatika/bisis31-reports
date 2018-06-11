@@ -1,0 +1,2 @@
+Main-Class: com.gint.app.bisis.editor.offlinereports.ReportRunner
+Class-Path: commons-logging.jar commons-io-1.0.jar commons-lang-2.0.jar gint-utils.jar sapdbc.jar bisis-common.jar

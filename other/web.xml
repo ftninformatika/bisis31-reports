@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+   <distributable/>
+   <servlet>
+     <servlet-name>OfflineServlet</servlet-name>
+     <servlet-class>com.gint.app.bisis.editor.reportservlets.OfflineReportServlet</servlet-class>
+     <init-param>
+       <param-name>reportDir</param-name>
+       <param-value>/home/reporter/bisisreports</param-value>
+     </init-param>
+   </servlet>
+   <servlet>
+     <servlet-name>OnlineServlet</servlet-name>
+     <servlet-class>com.gint.app.bisis.editor.reportservlets.OnlineReportServlet</servlet-class>
+     <init-param>
+       <param-name>recordsFile</param-name>
+       <param-value>/home/reporter/bisisreports/records.dat</param-value>
+     </init-param>
+     <init-param>
+       <param-name>reportSet</param-name>
+       <param-value>gbns</param-value>
+     </init-param>
+   </servlet>
+   
+   <servlet-mapping>
+     <servlet-name>OfflineServlet</servlet-name>
+     <url-pattern>/OfflineReport</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+     <servlet-name>OnlineServlet</servlet-name>
+     <url-pattern>/OnlineReport</url-pattern>
+   </servlet-mapping>
+</web-app>
+   

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="BISIS3-reports">
+
+  <property name="bin" value="bin"/>
+  <property name="src" value="src"/>
+  <property name="jars" value="jars"/>
+  <property name="libs" value="libs"/>
+  <property name="compile-libs" value="compile-libs"/>
+
+  <path id="classpath.all">
+    <pathelement location="bin"/>
+    <fileset dir="${libs}" includes="*.jar"/>
+    <fileset dir="${compile-libs}" includes="*.jar"/>
+  </path>
+
+  <target name="build" depends="compile,make.war,make.jar"/>
+
+  <target name="compile" description="Compile Java source">
+    <mkdir dir="${bin}"/>
+  	<javac srcdir="${src}" destdir="${bin}" classpathref="classpath.all"/>
+  </target>
+
+  <target name="make.war">
+    <mkdir dir="${jars}"/>
+    <jar destfile="${jars}/bisis-reports.war">
+      <zipfileset dir="other" prefix="WEB-INF">
+        <include name="web.xml"/>
+      </zipfileset>
+      <zipfileset dir="${libs}" prefix="WEB-INF/lib">
+        <include name="*.jar"/>
+      </zipfileset>
+      <zipfileset dir="${bin}" prefix="WEB-INF/classes">
+        <include name="com/gint/app/bisis/editor/offlinereports/**"/>
+        <include name="com/gint/app/bisis/editor/onlinereports/**"/>
+        <include name="com/gint/app/bisis/editor/reportservlets/**"/>
+      </zipfileset>
+      <zipfileset dir="docroot"/>
+    </jar>
+  </target>
+	
+	<target name="make.jar">
+		<mkdir dir="temp"/>
+		<unjar src="${libs}/commons-io-1.0.jar" dest="temp"/>
+		<unjar src="${libs}/commons-lang-2.0.jar" dest="temp"/>
+		<unjar src="${libs}/commons-logging.jar" dest="temp"/>
+		<unjar src="${libs}/gint-utils.jar" dest="temp"/>
+		<unjar src="${libs}/sapdbc.jar" dest="temp"/>
+		<unjar src="${libs}/bisis-common.jar" dest="temp"/>
+		<jar destfile="${jars}/ReportRunner.jar" manifest="other/reportrunner.mf">
+			<zipfileset dir="${bin}"/>
+			<zipfileset dir="temp"/>
+		</jar>
+		<delete dir="temp"/>
+	</target>
+	
+	<target name="clean">
+	  <delete dir="bin"/>
+  </target>
+	
+	<target name="rebuild" depends="clean,build"/>
+
+	<target name="deploy" depends="build">
+	  <copy file="${jars}/bisis-reports.war" 
+	  	todir="/home/branko/jakarta-tomcat-5.0.30/webapps"/>
+	</target>
+</project>
